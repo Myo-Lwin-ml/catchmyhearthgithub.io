@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="p1.jpg">
+        <link rel="icon" type="image/png" href="p1.jpg">
+
     <title>Catch My Heart</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap');
@@ -21,6 +22,8 @@
             overflow: hidden;
             height: 100vh;
             touch-action: none;
+            position: fixed;
+            width: 100%;
         }
 
         /* Animated Gradient Background */
@@ -69,7 +72,7 @@
         /* Dancing Couples with 3D effect */
         .dancingCouple {
             position: absolute;
-            font-size: 100px;
+            font-size: clamp(60px, 12vw, 100px);
             opacity: 0.25;
             z-index: 3;
             filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
@@ -92,14 +95,14 @@
         .couple3 {
             top: 35%;
             left: 8%;
-            font-size: 90px;
+            font-size: clamp(50px, 10vw, 90px);
             animation: sway1 7s ease-in-out infinite;
         }
 
         .couple4 {
             top: 30%;
             right: 12%;
-            font-size: 95px;
+            font-size: clamp(55px, 11vw, 95px);
             animation: sway2 6.5s ease-in-out infinite;
             animation-delay: 2.5s;
         }
@@ -158,7 +161,7 @@
         /* Floating Hearts with glow */
         .floatingHeart {
             position: absolute;
-            font-size: 35px;
+            font-size: clamp(25px, 5vw, 35px);
             opacity: 0.3;
             z-index: 4;
             animation: floatUpGlow 12s ease-in-out infinite;
@@ -194,24 +197,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 15px;
             z-index: 100;
             background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
             backdrop-filter: blur(10px);
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         #score {
             color: white;
-            font-size: 28px;
+            font-size: clamp(18px, 4vw, 28px);
             font-weight: 700;
             text-shadow: 0 2px 10px rgba(0,0,0,0.5);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .scoreIcon {
-            font-size: 32px;
+            font-size: clamp(22px, 5vw, 32px);
             animation: heartBeat 1.5s ease-in-out infinite;
         }
 
@@ -225,13 +230,16 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
             border: 2px solid rgba(255,255,255,0.4);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            font-size: clamp(18px, 4vw, 24px);
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .iconBtn:hover {
@@ -246,11 +254,11 @@
 
         #title {
             position: absolute;
-            top: 25%;
+            top: clamp(20%, 25vh, 28%);
             left: 50%;
             transform: translate(-50%, -50%);
             color: white;
-            font-size: 56px;
+            font-size: clamp(32px, 8vw, 56px);
             font-weight: bold;
             text-shadow: 0 0 20px rgba(255,107,157,0.8),
                          0 0 40px rgba(255,107,157,0.6),
@@ -259,6 +267,9 @@
             pointer-events: none;
             z-index: 50;
             animation: titleGlow 3s ease-in-out infinite;
+            text-align: center;
+            padding: 0 20px;
+            max-width: 90%;
         }
 
         @keyframes titleGlow {
@@ -278,20 +289,20 @@
 
         #messageBox {
             position: absolute;
-            top: 130px;
+            top: clamp(100px, 15vh, 130px);
             left: 50%;
             transform: translateX(-50%) scale(0.8);
             background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
             color: white;
-            padding: 20px 35px;
+            padding: clamp(15px, 3vw, 20px) clamp(25px, 5vw, 35px);
             border-radius: 25px;
-            font-size: 20px;
+            font-size: clamp(16px, 3vw, 20px);
             font-weight: 600;
             opacity: 0;
             transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             z-index: 90;
             text-align: center;
-            max-width: 85%;
+            max-width: 90%;
             backdrop-filter: blur(15px);
             border: 2px solid rgba(255,255,255,0.2);
             box-shadow: 0 8px 32px rgba(0,0,0,0.4);
@@ -304,7 +315,7 @@
 
         .heart {
             position: absolute;
-            font-size: 50px;
+            font-size: clamp(35px, 8vw, 50px);
             cursor: pointer;
             user-select: none;
             animation: fall linear;
@@ -325,10 +336,10 @@
 
         #basket {
             position: absolute;
-            bottom: 60px;
+            bottom: clamp(40px, 8vh, 60px);
             left: 50%;
             transform: translateX(-50%);
-            font-size: 90px;
+            font-size: clamp(60px, 12vw, 90px);
             cursor: move;
             z-index: 20;
             user-select: none;
@@ -343,23 +354,26 @@
         /* Audio Controls */
         #audioControls {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 15px;
+            right: 15px;
             z-index: 100;
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
         .audioBtn {
             background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
             border: 2px solid rgba(255,255,255,0.4);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            font-size: 24px;
+            width: clamp(40px, 8vw, 50px);
+            height: clamp(40px, 8vw, 50px);
+            font-size: clamp(18px, 4vw, 24px);
             cursor: pointer;
             transition: all 0.3s;
             backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .audioBtn:hover {
@@ -425,13 +439,14 @@
         .modalContent {
             background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
             border-radius: 25px;
-            padding: 35px;
+            padding: clamp(20px, 5vw, 35px);
             max-width: 550px;
             width: 90%;
-            max-height: 90vh;
+            max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            margin: 20px;
         }
 
         @keyframes slideUp {
@@ -446,13 +461,13 @@
         }
 
         .modalHeader {
-            font-size: 32px;
+            font-size: clamp(24px, 5vw, 32px);
             font-weight: 700;
             background: linear-gradient(135deg, #FF6B9D, #C06C84);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
@@ -460,12 +475,12 @@
             background: linear-gradient(135deg, #FF6B9D, #C06C84);
             color: white;
             border: none;
-            padding: 15px 35px;
+            padding: clamp(12px, 2.5vw, 15px) clamp(25px, 5vw, 35px);
             border-radius: 30px;
-            font-size: 18px;
+            font-size: clamp(16px, 3vw, 18px);
             font-weight: 600;
             cursor: pointer;
-            margin-top: 25px;
+            margin-top: 20px;
             display: block;
             width: 100%;
             box-shadow: 0 5px 15px rgba(255,107,157,0.4);
@@ -484,8 +499,8 @@
         .memoryCard {
             background: linear-gradient(135deg, #ffffff, #f9f9f9);
             border-radius: 18px;
-            padding: 25px;
-            margin-bottom: 18px;
+            padding: clamp(15px, 3vw, 25px);
+            margin-bottom: 15px;
             border-left: 6px solid #FF6B9D;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
             transition: all 0.3s;
@@ -497,26 +512,26 @@
         }
 
         .memoryTitle {
-            font-size: 22px;
+            font-size: clamp(18px, 3.5vw, 22px);
             font-weight: 700;
             background: linear-gradient(135deg, #FF6B9D, #C06C84);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .memoryDesc {
             color: #555;
-            font-size: 17px;
+            font-size: clamp(14px, 3vw, 17px);
             line-height: 1.6;
         }
 
         .unlockText {
             text-align: center;
             color: #666;
-            margin-bottom: 25px;
-            font-size: 17px;
+            margin-bottom: 20px;
+            font-size: clamp(14px, 3vw, 17px);
             font-weight: 500;
         }
 
@@ -528,24 +543,24 @@
         .dailyNote {
             background: linear-gradient(135deg, #FF6B9D, #C06C84);
             color: white;
-            padding: 35px;
+            padding: clamp(20px, 4vw, 35px);
             border-radius: 20px;
             text-align: center;
             line-height: 1.9;
-            font-size: 19px;
+            font-size: clamp(16px, 3vw, 19px);
             box-shadow: 0 10px 30px rgba(255,107,157,0.4);
         }
 
         .dateText {
-            font-size: 17px;
+            font-size: clamp(14px, 3vw, 17px);
             opacity: 0.95;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             font-weight: 500;
         }
 
         .heartIcon {
-            font-size: 70px;
-            margin-bottom: 25px;
+            font-size: clamp(50px, 10vw, 70px);
+            margin-bottom: 20px;
             animation: heartBeat 1.5s ease-in-out infinite;
         }
 
@@ -563,6 +578,7 @@
             justify-content: center;
             z-index: 10000;
             transition: opacity 0.5s;
+            padding: 20px;
         }
 
         #loadingScreen.hidden {
@@ -572,30 +588,85 @@
 
         .loadingText {
             color: white;
-            font-size: 32px;
+            font-size: clamp(28px, 6vw, 32px);
             font-weight: 700;
             font-family: 'Pacifico', cursive;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            text-align: center;
         }
 
         .startBtn {
             background: white;
             color: #FF6B9D;
             border: none;
-            padding: 18px 45px;
+            padding: clamp(14px, 3vw, 18px) clamp(30px, 6vw, 45px);
             border-radius: 35px;
-            font-size: 20px;
+            font-size: clamp(16px, 3.5vw, 20px);
             font-weight: 700;
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             transition: all 0.3s;
-            margin-top: 20px;
+            margin-top: 15px;
         }
 
         .startBtn:hover {
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .dancingCouple {
+                opacity: 0.15;
+            }
+            
+            #title {
+                top: 22%;
+            }
+
+            .couple3, .couple4 {
+                display: none;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            #topBar {
+                padding: 10px;
+            }
+
+            .memoryCard {
+                padding: 15px;
+            }
+
+            #audioControls {
+                bottom: 10px;
+                right: 10px;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .modalContent {
+                max-width: 600px;
+            }
+        }
+
+        /* Landscape mobile */
+        @media (max-height: 600px) and (orientation: landscape) {
+            #title {
+                top: 15%;
+                font-size: clamp(24px, 5vh, 36px);
+            }
+
+            #basket {
+                bottom: 20px;
+            }
+
+            .dancingCouple {
+                font-size: clamp(40px, 8vh, 70px);
+            }
         }
     </style>
 </head>
@@ -604,7 +675,7 @@
     <div id="loadingScreen">
         <div class="loadingText">Catch My Heart 💕</div>
         <div style="color: white; font-size: 18px; margin-bottom: 30px; text-align: center; padding: 0 30px;">
-            I made this for you. Take your time, I'll be here waiting. When you're ready, play this game and remember... I'm not going anywhere. 💖
+           Babe RO RO, I made this for you krup. Take your time, I'll be here waiting. When you're ready, play this game and remember... I'm not going anywhere krup. 💖
         </div>
         <button class="startBtn" onclick="startGame()">I'm Ready ❤️</button>
     </div>
@@ -667,16 +738,16 @@
 
     <script>
         const loveMessages = [
-            "I'm here, waiting for you BROO ❤️",
-            "Take all the time you need BABE RORO HE HE 💕",
-            "Missing you MAKK, but I understand 🥺",
-            "You're worth the wait ROOO 💖",
-            "I'll be here when you're ready Na Krup🌟",
-            "Thinking of you always Na💭",
+            "I'm here, waiting for you ❤️",
+            "Take all the time you need 💕",
+            "Missing you, but I understand 🥺",
+            "You're worth the wait 💖",
+            "I'll be here when you're ready 🌟",
+            "Thinking of you always 💭",
             "My heart is patient for you ⏳",
             "Space doesn't mean goodbye 🤗",
             "Still yours, still waiting 💝",
-            "You're in my thoughts every day BABE RORO.. 🌙",
+            "You're in my thoughts every day 🌙",
             "I respect your journey 🛤️",
             "Whenever you're ready, I'm here 🏠",
             "Distance makes the heart grow fonder 💗",
@@ -684,7 +755,7 @@
             "You're worth every moment of waiting ✨"
         ];
 
-        const memories = [
+       const memories = [
             { title: "Our Beginning", desc: "Hey BRO.. I am so horny..Can you come to my room now.. Cos I have to go work at 4 pm lol.", unlock: 0 },
             { title: "When We Laughed", desc: "You are soo slow makkk 😊", unlock: 5 },
             { title: "Deep Conversations", desc: "My happiness is like these..I can't let someone who can make my happiness so small.. 💬", unlock: 10 },
@@ -1206,4 +1277,3 @@
     </script>
 </body>
 </html>
-
