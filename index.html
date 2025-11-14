@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catch My Heart</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #1a0a2e;
+            overflow: hidden;
+            height: 100vh;
+            touch-action: none;
+        }
+
+        /* Animated Gradient Background */
+        #gradientBg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                #ff6b9d 0%, 
+                #c06c84 25%,
+                #6c5b7b 50%,
+                #355c7d 75%,
+                #2a1b3d 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            z-index: 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        /* Dancing Couples with 3D effect */
+        .dancingCouple {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.25;
+            z-index: 3;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+            transform-style: preserve-3d;
+        }
+
+        .couple1 {
+            bottom: 15%;
+            left: 10%;
+            animation: dance3D1 5s ease-in-out infinite;
+        }
+
+        .couple2 {
+            bottom: 20%;
+            right: 15%;
+            animation: dance3D2 6s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+
+        .couple3 {
+            top: 35%;
+            left: 8%;
+            font-size: 90px;
+            animation: sway1 7s ease-in-out infinite;
+        }
+
+        .couple4 {
+            top: 30%;
+            right: 12%;
+            font-size: 95px;
+            animation: sway2 6.5s ease-in-out infinite;
+            animation-delay: 2.5s;
+        }
+
+        @keyframes dance3D1 {
+            0%, 100% { 
+                transform: perspective(400px) rotateY(-10deg) translateY(0px) scale(1);
+            }
+            25% { 
+                transform: perspective(400px) rotateY(10deg) translateY(-20px) scale(1.05);
+            }
+            50% { 
+                transform: perspective(400px) rotateY(-5deg) translateY(-10px) scale(0.98);
+            }
+            75% { 
+                transform: perspective(400px) rotateY(8deg) translateY(-25px) scale(1.02);
+            }
+        }
+
+        @keyframes dance3D2 {
+            0%, 100% { 
+                transform: perspective(400px) rotateY(10deg) translateY(0px) translateX(0px) scale(1);
+            }
+            33% { 
+                transform: perspective(400px) rotateY(-12deg) translateY(-25px) translateX(-15px) scale(1.08);
+            }
+            66% { 
+                transform: perspective(400px) rotateY(8deg) translateY(-15px) translateX(10px) scale(0.95);
+            }
+        }
+
+        @keyframes sway1 {
+            0%, 100% { 
+                transform: perspective(400px) rotateZ(-3deg) translateY(0px) translateX(0px);
+            }
+            33% { 
+                transform: perspective(400px) rotateZ(5deg) translateY(-30px) translateX(20px);
+            }
+            66% { 
+                transform: perspective(400px) rotateZ(-4deg) translateY(-15px) translateX(-15px);
+            }
+        }
+
+        @keyframes sway2 {
+            0%, 100% { 
+                transform: perspective(400px) rotateZ(3deg) translateY(0px) scale(1);
+            }
+            33% { 
+                transform: perspective(400px) rotateZ(-6deg) translateY(-20px) scale(1.05);
+            }
+            66% { 
+                transform: perspective(400px) rotateZ(4deg) translateY(-35px) scale(0.97);
+            }
+        }
+
+        /* Floating Hearts with glow */
+        .floatingHeart {
+            position: absolute;
+            font-size: 35px;
+            opacity: 0.3;
+            z-index: 4;
+            animation: floatUpGlow 12s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.6));
+        }
+
+        @keyframes floatUpGlow {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.4;
+                filter: drop-shadow(0 0 15px rgba(255, 107, 157, 0.8));
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                transform: translateY(-150px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        #topBar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+            backdrop-filter: blur(10px);
+        }
+
+        #score {
+            color: white;
+            font-size: 28px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .scoreIcon {
+            font-size: 32px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(0.95); }
+        }
+
+        .iconBtn {
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .iconBtn:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.3));
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 6px 20px rgba(255,107,157,0.4);
+        }
+
+        .iconBtn:active {
+            transform: scale(0.95);
+        }
+
+        #title {
+            position: absolute;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 56px;
+            font-weight: bold;
+            text-shadow: 0 0 20px rgba(255,107,157,0.8),
+                         0 0 40px rgba(255,107,157,0.6),
+                         0 4px 15px rgba(0,0,0,0.5);
+            font-family: 'Pacifico', cursive;
+            pointer-events: none;
+            z-index: 50;
+            animation: titleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% { 
+                transform: translate(-50%, -50%) scale(1);
+                text-shadow: 0 0 20px rgba(255,107,157,0.8),
+                             0 0 40px rgba(255,107,157,0.6),
+                             0 4px 15px rgba(0,0,0,0.5);
+            }
+            50% { 
+                transform: translate(-50%, -50%) scale(1.05);
+                text-shadow: 0 0 30px rgba(255,107,157,1),
+                             0 0 60px rgba(255,107,157,0.8),
+                             0 4px 20px rgba(0,0,0,0.6);
+            }
+        }
+
+        #messageBox {
+            position: absolute;
+            top: 130px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            background: linear-gradient(135deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+            color: white;
+            padding: 20px 35px;
+            border-radius: 25px;
+            font-size: 20px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 90;
+            text-align: center;
+            max-width: 85%;
+            backdrop-filter: blur(15px);
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+        }
+
+        #messageBox.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 50px;
+            cursor: pointer;
+            user-select: none;
+            animation: fall linear;
+            z-index: 10;
+            filter: drop-shadow(0 5px 15px rgba(255,107,157,0.6));
+            transition: transform 0.2s;
+        }
+
+        .heart:hover {
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        #basket {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 90px;
+            cursor: move;
+            z-index: 20;
+            user-select: none;
+            filter: drop-shadow(0 10px 25px rgba(0,0,0,0.4));
+            transition: transform 0.1s;
+        }
+
+        #basket:active {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* Audio Controls */
+        #audioControls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+        }
+
+        .audioBtn {
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .audioBtn:hover {
+            background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(255,255,255,0.3));
+            transform: scale(1.1);
+        }
+
+        .audioBtn.active {
+            background: linear-gradient(135deg, rgba(255,107,157,0.6), rgba(192,108,132,0.4));
+        }
+
+        /* Particle Burst Effect */
+        .particleBurst {
+            position: absolute;
+            pointer-events: none;
+            z-index: 80;
+        }
+
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: burstParticle 0.8s ease-out forwards;
+        }
+
+        @keyframes burstParticle {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modalContent {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            border-radius: 25px;
+            padding: 35px;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modalHeader {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .closeBtn {
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 25px;
+            display: block;
+            width: 100%;
+            box-shadow: 0 5px 15px rgba(255,107,157,0.4);
+            transition: all 0.3s;
+        }
+
+        .closeBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,107,157,0.6);
+        }
+
+        .closeBtn:active {
+            transform: translateY(0);
+        }
+
+        .memoryCard {
+            background: linear-gradient(135deg, #ffffff, #f9f9f9);
+            border-radius: 18px;
+            padding: 25px;
+            margin-bottom: 18px;
+            border-left: 6px solid #FF6B9D;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .memoryCard:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(255,107,157,0.3);
+        }
+
+        .memoryTitle {
+            font-size: 22px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .memoryDesc {
+            color: #555;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        .unlockText {
+            text-align: center;
+            color: #666;
+            margin-bottom: 25px;
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .locked {
+            opacity: 0.6;
+            background: linear-gradient(135deg, #e8e8e8, #d8d8d8);
+        }
+
+        .dailyNote {
+            background: linear-gradient(135deg, #FF6B9D, #C06C84);
+            color: white;
+            padding: 35px;
+            border-radius: 20px;
+            text-align: center;
+            line-height: 1.9;
+            font-size: 19px;
+            box-shadow: 0 10px 30px rgba(255,107,157,0.4);
+        }
+
+        .dateText {
+            font-size: 17px;
+            opacity: 0.95;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .heartIcon {
+            font-size: 70px;
+            margin-bottom: 25px;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        /* Loading Screen */
+        #loadingScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #FF6B9D, #C06C84, #6C5B7B);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s;
+        }
+
+        #loadingScreen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loadingText {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+            font-family: 'Pacifico', cursive;
+            margin-bottom: 20px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+        }
+
+        .startBtn {
+            background: white;
+            color: #FF6B9D;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 35px;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .startBtn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen">
+        <div class="loadingText">Catch My Heart 💕</div>
+        <div style="color: white; font-size: 18px; margin-bottom: 30px; text-align: center; padding: 0 30px;">
+            I made this for you. Take your time, I'll be here waiting. When you're ready, play this game and remember... I'm not going anywhere. 💖
+        </div>
+        <button class="startBtn" onclick="startGame()">I'm Ready ❤️</button>
+    </div>
+
+    <!-- Animated Background -->
+    <div id="gradientBg"></div>
+    <canvas id="particleCanvas"></canvas>
+
+    <div id="gameContainer">
+        <!-- Dancing Couples Background -->
+        <div class="dancingCouple couple1">👨‍❤️‍👨</div>
+        <div class="dancingCouple couple2">💃🕺</div>
+        <div class="dancingCouple couple3">👨‍❤️‍💋‍👨</div>
+        <div class="dancingCouple couple4">💑</div>
+
+        <div id="topBar">
+            <div id="score">
+                <span class="scoreIcon">❤️</span>
+                <span>Hearts: 0</span>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="iconBtn" onclick="openMemories()">📸</button>
+                <button class="iconBtn" onclick="openDailyNote()">💌</button>
+            </div>
+        </div>
+
+        <div id="title">Catch My Heart</div>
+        <div id="messageBox"></div>
+        <div id="basket">🧺</div>
+
+        <!-- Audio Controls -->
+        <div id="audioControls">
+            <button class="audioBtn active" id="musicBtn" onclick="toggleMusic()">🎵</button>
+            <button class="audioBtn active" id="soundBtn" onclick="toggleSound()">🔊</button>
+        </div>
+    </div>
+
+    <!-- Memories Modal -->
+    <div id="memoriesModal" class="modal">
+        <div class="modalContent">
+            <div class="modalHeader">Our Memories 💕</div>
+            <div class="unlockText" id="unlockText">Unlocked: 0/10 memories</div>
+            <div id="memoriesList"></div>
+            <button class="closeBtn" onclick="closeModal('memoriesModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Daily Note Modal -->
+    <div id="dailyNoteModal" class="modal">
+        <div class="modalContent">
+            <div class="modalHeader">Daily Love Note 💌</div>
+            <div class="dailyNote">
+                <div class="heartIcon">❤️</div>
+                <div class="dateText" id="dateText"></div>
+                <div id="dailyNoteText"></div>
+            </div>
+            <button class="closeBtn" onclick="closeModal('dailyNoteModal')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        const loveMessages = [
+            "I'm here, waiting for you ❤️",
+            "Take all the time you need 💕",
+            "Missing you, but I understand 🥺",
+            "You're worth the wait 💖",
+            "I'll be here when you're ready 🌟",
+            "Thinking of you always 💭",
+            "My heart is patient for you ⏳",
+            "Space doesn't mean goodbye 🤗",
+            "Still yours, still waiting 💝",
+            "You're in my thoughts every day 🌙",
+            "I respect your journey 🛤️",
+            "Whenever you're ready, I'm here 🏠",
+            "Distance makes the heart grow fonder 💗",
+            "I believe in us 💪",
+            "You're worth every moment of waiting ✨"
+        ];
+
+        const memories = [
+            { title: "Our Beginning", desc: "Every great love story has a beautiful start ❤️", unlock: 0 },
+            { title: "When We Laughed", desc: "Those moments of pure joy we shared 😊", unlock: 5 },
+            { title: "Deep Conversations", desc: "Talking about everything and nothing 💬", unlock: 10 },
+            { title: "Your Smile", desc: "The way it lights up my world 🌟", unlock: 15 },
+            { title: "Comfortable Silence", desc: "When words weren't needed 🤝", unlock: 20 },
+            { title: "Inside Jokes", desc: "Things only we understand 😄", unlock: 25 },
+            { title: "Supporting Each Other", desc: "Being there through thick and thin 💪", unlock: 30 },
+            { title: "Understanding Space", desc: "Respecting what we each need to grow 🌱", unlock: 40 },
+            { title: "Patient Love", desc: "Real love knows how to wait ⏳", unlock: 50 },
+            { title: "When You're Ready", desc: "I'll be here with open arms, always 🤗", unlock: 75 }
+        ];
+
+        const dailyNotes = [
+            "Hi love, I hope you're taking care of yourself today. I'm thinking of you and respecting the space you need. I'm here whenever you're ready. 💕",
+            "Good morning! Just wanted you to know that I understand why you need time. Take all the time you need - I'll be waiting with patience and love. 🌅",
+            "Thinking of you today. I hope you're finding clarity and peace in this time for yourself. You're worth waiting for. 💖",
+            "Hey you, I miss you but I'm not going anywhere. Take your time to figure things out. I believe in you and in us. 🌟",
+            "I respect your need for space, and I want you to know that my feelings haven't changed. Whenever you're ready to talk, I'm here. 💗",
+            "Hope you're doing well. Remember, needing time doesn't change how much I care about you. You're always in my heart. 🤗",
+            "Missing you today, but I understand. Real love means giving space when it's needed. I'm here, patiently waiting. ⏳",
+            "Hey love, just a reminder that I support you and whatever you need right now. Take care of yourself. I'll be here. 💝",
+            "Thinking about you and hoping you're okay. Use this time to heal, grow, and be yourself. I'm not going anywhere. 🌈",
+            "You asked for time and I'm giving it to you because I respect you. Just know my heart is still yours, always. 💕"
+        ];
+
+        let score = 0;
+        let gameRunning = false;
+        let musicEnabled = true;
+        let soundEnabled = true;
+        const basket = document.getElementById('basket');
+        const messageBox = document.getElementById('messageBox');
+        const gameContainer = document.getElementById('gameContainer');
+        let basketX = window.innerWidth / 2 - 45;
+
+        // Audio Context for sounds
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const audioCtx = new AudioContext();
+
+        // Create background music (romantic melody)
+        let musicGain = audioCtx.createGain();
+        musicGain.gain.value = 0.3;
+        musicGain.connect(audioCtx.destination);
+        let musicOscillators = [];
+
+        function playBackgroundMusic() {
+            if (!musicEnabled) return;
+            
+            // Catchy romantic melody pattern (inspired by popular children's songs structure)
+            const melody = [
+                {freq: 523.25, duration: 0.3},  // C
+                {freq: 587.33, duration: 0.3},  // D
+                {freq: 659.25, duration: 0.3},  // E
+                {freq: 587.33, duration: 0.3},  // D
+                {freq: 523.25, duration: 0.3},  // C
+                {freq: 587.33, duration: 0.3},  // D
+                {freq: 659.25, duration: 0.6},  // E (longer)
+                {freq: 659.25, duration: 0.3},  // E
+                {freq: 698.46, duration: 0.3},  // F
+                {freq: 783.99, duration: 0.3},  // G
+                {freq: 698.46, duration: 0.3},  // F
+                {freq: 659.25, duration: 0.3},  // E
+                {freq: 698.46, duration: 0.3},  // F
+                {freq: 783.99, duration: 0.6},  // G (longer)
+                {freq: 783.99, duration: 0.3},  // G
+                {freq: 880.00, duration: 0.3},  // A
+                {freq: 783.99, duration: 0.3},  // G
+                {freq: 698.46, duration: 0.3},  // F
+                {freq: 659.25, duration: 0.3},  // E
+                {freq: 587.33, duration: 0.3},  // D
+                {freq: 523.25, duration: 0.9},  // C (end)
+            ];
+            
+            let noteIndex = 0;
+            
+            function playNote() {
+                if (!musicEnabled) return;
+                
+                const note = melody[noteIndex % melody.length];
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                // Use triangle wave for softer, more pleasant sound
+                osc.type = 'triangle';
+                osc.frequency.value = note.freq;
+                
+                // Envelope for each note
+                const now = audioCtx.currentTime;
+                gain.gain.setValueAtTime(0, now);
+                gain.gain.linearRampToValueAtTime(0.15, now + 0.05);
+                gain.gain.linearRampToValueAtTime(0.12, now + note.duration * 0.7);
+                gain.gain.linearRampToValueAtTime(0, now + note.duration);
+                
+                osc.connect(gain);
+                gain.connect(musicGain);
+                
+                osc.start(now);
+                osc.stop(now + note.duration);
+                
+                musicOscillators.push(osc);
+                
+                noteIndex++;
+                setTimeout(playNote, note.duration * 1000);
+            }
+            
+            playNote();
+            
+            // Add bass line for depth
+            function playBass() {
+                if (!musicEnabled) return;
+                
+                const bassNotes = [130.81, 146.83, 164.81, 146.83]; // C, D, E, D (octave lower)
+                let bassIndex = 0;
+                
+                function playBassNote() {
+                    if (!musicEnabled) return;
+                    
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'sine';
+                    osc.frequency.value = bassNotes[bassIndex % bassNotes.length];
+                    
+                    const now = audioCtx.currentTime;
+                    gain.gain.setValueAtTime(0, now);
+                    gain.gain.linearRampToValueAtTime(0.08, now + 0.1);
+                    gain.gain.linearRampToValueAtTime(0, now + 1.2);
+                    
+                    osc.connect(gain);
+                    gain.connect(musicGain);
+                    
+                    osc.start(now);
+                    osc.stop(now + 1.2);
+                    
+                    bassIndex++;
+                    setTimeout(playBassNote, 1200);
+                }
+                
+                playBassNote();
+            }
+            
+            playBass();
+        }
+
+        function playCatchSound() {
+            if (!soundEnabled) return;
+            
+            // More playful "ding" sound
+            const osc1 = audioCtx.createOscillator();
+            const osc2 = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            
+            osc1.type = 'sine';
+            osc2.type = 'sine';
+            
+            // Two notes for a pleasant "ding ding" 
+            osc1.frequency.setValueAtTime(800, audioCtx.currentTime);
+            osc2.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+            
+            osc1.connect(gain);
+            osc2.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc1.start(audioCtx.currentTime);
+            osc2.start(audioCtx.currentTime + 0.05);
+            osc1.stop(audioCtx.currentTime + 0.15);
+            osc2.stop(audioCtx.currentTime + 0.2);
+        }
+
+        function playCelebrationSound() {
+            if (!soundEnabled) return;
+            
+            // Playful ascending melody for celebration
+            const celebrationMelody = [
+                {freq: 523.25, time: 0},      // C
+                {freq: 659.25, time: 0.1},    // E
+                {freq: 783.99, time: 0.2},    // G
+                {freq: 1046.50, time: 0.3},   // C (high)
+                {freq: 783.99, time: 0.4},    // G
+                {freq: 1046.50, time: 0.5},   // C (high)
+            ];
+            
+            celebrationMelody.forEach(note => {
+                setTimeout(() => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    
+                    osc.type = 'triangle';
+                    osc.frequency.value = note.freq;
+                    
+                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                    
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.3);
+                }, note.time * 1000);
+            });
+        }
+
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            const btn = document.getElementById('musicBtn');
+            btn.classList.toggle('active');
+            btn.textContent = musicEnabled ? '🎵' : '🔇';
+            if (!musicEnabled) {
+                musicOscillators.forEach(osc => osc.stop());
+                musicOscillators = [];
+            } else {
+                playBackgroundMusic();
+            }
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundBtn');
+            btn.classList.toggle('active');
+            btn.textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        // Particle Canvas Animation
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1 - 0.5;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.color = `rgba(255, ${Math.random() * 100 + 107}, ${Math.random() * 50 + 157}, ${Math.random() * 0.3 + 0.1})`;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < 100; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Create floating hearts background
+        function createFloatingHearts() {
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floatingHeart';
+                    heart.textContent = ['💕', '💖', '💗', '💝'][Math.floor(Math.random() * 4)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDelay = Math.random() * 5 + 's';
+                    heart.style.animationDuration = (10 + Math.random() * 5) + 's';
+                    gameContainer.insertBefore(heart, gameContainer.firstChild);
+                }, i * 1200);
+            }
+        }
+
+        // Particle burst effect
+        function createParticleBurst(x, y) {
+            const burst = document.createElement('div');
+            burst.className = 'particleBurst';
+            burst.style.left = x + 'px';
+            burst.style.top = y + 'px';
+            gameContainer.appendChild(burst);
+
+            const colors = ['#FF6B9D', '#C06C84', '#FFB6C1', '#FFC0CB', '#FF69B4'];
+
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (Math.PI * 2 * i) / 20;
+                const velocity = 50 + Math.random() * 50;
+                particle.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                particle.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                burst.appendChild(particle);
+            }
+
+            setTimeout(() => burst.remove(), 1000);
+        }
+
+        // Basket movement
+        let isDragging = false;
+
+        basket.addEventListener('mousedown', () => isDragging = true);
+        basket.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            isDragging = true;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) moveBasket(e.clientX);
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (isDragging) {
+                e.preventDefault();
+                moveBasket(e.touches[0].clientX);
+            }
+        });
+
+        document.addEventListener('mouseup', () => isDragging = false);
+        document.addEventListener('touchend', () => isDragging = false);
+
+        gameContainer.addEventListener('click', (e) => {
+            if (!isDragging && e.target === gameContainer) {
+                moveBasket(e.clientX);
+            }
+        });
+
+        function moveBasket(x) {
+            basketX = Math.max(45, Math.min(x, window.innerWidth - 45));
+            basket.style.left = basketX + 'px';
+        }
+
+        basket.style.left = basketX + 'px';
+
+        // Spawn hearts
+        function spawnHeart() {
+            if (!gameRunning) return;
+
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            const heartTypes = ['❤️', '💕', '💖', '💗'];
+            heart.textContent = heartTypes[Math.floor(Math.random() * heartTypes.length)];
+            heart.style.left = Math.random() * (window.innerWidth - 60) + 'px';
+            heart.style.top = '-60px';
+            
+            const duration = 3.5 + Math.random() * 2;
+            heart.style.animationDuration = duration + 's';
+            
+            gameContainer.appendChild(heart);
+
+            checkCollision(heart);
+
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, duration * 1000);
+
+            setTimeout(spawnHeart, 700 + Math.random() * 1300);
+        }
+
+        function checkCollision(heart) {
+            const interval = setInterval(() => {
+                if (!heart.parentNode) {
+                    clearInterval(interval);
+                    return;
+                }
+
+                const heartRect = heart.getBoundingClientRect();
+                const basketRect = basket.getBoundingClientRect();
+
+                if (heartRect.bottom >= basketRect.top &&
+                    heartRect.top <= basketRect.bottom &&
+                    heartRect.right >= basketRect.left &&
+                    heartRect.left <= basketRect.right) {
+                    
+                    heartCaught(heart);
+                    clearInterval(interval);
+                }
+            }, 50);
+        }
+
+        function heartCaught(heart) {
+            const heartRect = heart.getBoundingClientRect();
+            createParticleBurst(heartRect.left + 25, heartRect.top + 25);
+            playCatchSound();
+            
+            heart.remove();
+            score++;
+            document.getElementById('score').innerHTML = `<span class="scoreIcon">❤️</span><span>Hearts: ${score}</span>`;
+
+            const message = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+            messageBox.textContent = message;
+            messageBox.classList.add('show');
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 2500);
+
+            if (score % 10 === 0) {
+                showCelebration();
+            }
+        }
+
+        function showCelebration() {
+            playCelebrationSound();
+            const originalText = messageBox.textContent;
+            messageBox.textContent = `🎉 ${score} Hearts! You're amazing! 🎉`;
+            messageBox.classList.add('show');
+            
+            // Create extra celebration particles
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    createParticleBurst(
+                        Math.random() * window.innerWidth,
+                        Math.random() * window.innerHeight * 0.5
+                    );
+                }, i * 200);
+            }
+            
+            setTimeout(() => {
+                messageBox.textContent = originalText;
+            }, 3500);
+        }
+
+        function openMemories() {
+            const modal = document.getElementById('memoriesModal');
+            const list = document.getElementById('memoriesList');
+            list.innerHTML = '';
+
+            let unlockedCount = 0;
+            memories.forEach(memory => {
+                const card = document.createElement('div');
+                card.className = 'memoryCard';
+                
+                if (score >= memory.unlock) {
+                    unlockedCount++;
+                    card.innerHTML = `
+                        <div class="memoryTitle">${memory.title}</div>
+                        <div class="memoryDesc">${memory.desc}</div>
+                    `;
+                } else {
+                    card.classList.add('locked');
+                    card.innerHTML = `
+                        <div class="memoryTitle">🔒 Locked</div>
+                        <div class="memoryDesc">Catch ${memory.unlock} hearts to unlock</div>
+                    `;
+                }
+                list.appendChild(card);
+            });
+
+            document.getElementById('unlockText').textContent = 
+                `Unlocked: ${unlockedCount}/${memories.length} memories`;
+            
+            modal.classList.add('show');
+        }
+
+        function openDailyNote() {
+            const modal = document.getElementById('dailyNoteModal');
+            const today = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateText').textContent = today.toLocaleDateString('en-US', options);
+            
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const note = dailyNotes[dayOfYear % dailyNotes.length];
+            document.getElementById('dailyNoteText').textContent = note;
+            
+            modal.classList.add('show');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+
+        // Start game function
+        function startGame() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            gameRunning = true;
+            
+            // Resume audio context
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            playBackgroundMusic();
+            createFloatingHearts();
+            setTimeout(spawnHeart, 1500);
+        }
+    </script>
+</body>
+</html>
